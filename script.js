@@ -1,7 +1,7 @@
 
 
 class C4 {
-    static winningDeals = [[0,1,2,3], [1,2,3,4], [2,3,4,5], [3,4,5,6], [7,8,9,10], [8,9,10,11], [9,10,11,12], [10,11,12,13], [14,15,16,17], [15,16,17,18], [16,17,18,19], [17,18,19,20], [21,22,23,24], [22,23,24,25], [23,24,25,26], [24,25,26,27], [28,29,30,31], [29,30,31,32], [30,31,32,33], [31,32,33,34], [35,36,37,38], [36,37,38,39], [37,38,39,40], [38,39,40,41], [0,7,14,21], [7,14,21,28], [14,21,28,35], [1,8,15,22], [8,15,22,29], [15,22,29,36], [2,9,16,23], [9,16,23,30], [16,23,30,37], [3,10,17,24], [10,17,24,31], [17,24,31,38], [4,11,18,25], [11,18,25,32], [18,25,32,39], [5,12,19,26], [12,19,26,33], [19,26,33,49], [6,13,20,27], [13,20,27,34], [20,27,34,41], [3,11,19,27], [2,10,18,26], [19,18,26,34], [1,9,17,25], [9,17,25,33], [17,25,33,41], [0,8,16,24], [8,16,24,32], [16,24,32,40], [7,15,23,31], [15,23,31,39], [14,22,30,31], [3,9,15,21], [4,10,16,22], [10,16,22,28], [5,11,17,23], [11,17,23,29], [17,23,29,35], [6,12,18,24], [12,18,24,39], [18,24,39,36], [13,19,25,31], [19,25,31,37], [20,26,32,38]];
+    static winningDeals = [[0,1,2,3], [1,2,3,4], [2,3,4,5], [3,4,5,6], [7,8,9,10], [8,9,10,11], [9,10,11,12], [10,11,12,13], [14,15,16,17], [15,16,17,18], [16,17,18,19], [17,18,19,20], [21,22,23,24], [22,23,24,25], [23,24,25,26], [24,25,26,27], [28,29,30,31], [29,30,31,32], [30,31,32,33], [31,32,33,34], [35,36,37,38], [36,37,38,39], [37,38,39,40], [38,39,40,41], [0,7,14,21], [7,14,21,28], [14,21,28,35], [1,8,15,22], [8,15,22,29], [15,22,29,36], [2,9,16,23], [9,16,23,30], [16,23,30,37], [3,10,17,24], [10,17,24,31], [17,24,31,38], [4,11,18,25], [11,18,25,32], [18,25,32,39], [5,12,19,26], [12,19,26,33], [19,26,33,40], [6,13,20,27], [13,20,27,34], [20,27,34,41], [3,11,19,27], [2,10,18,26], [10,18,26,34], [1,9,17,25], [9,17,25,33], [17,25,33,41], [0,8,16,24], [8,16,24,32], [16,24,32,40], [7,15,23,31], [15,23,31,39], [14,22,30,31], [3,9,15,21], [4,10,16,22], [10,16,22,28], [5,11,17,23], [11,17,23,29], [17,23,29,35], [6,12,18,24], [12,18,24,30], [18,24,30,36], [13,19,25,31], [19,25,31,37], [20,26,32,38]];
     constructor(place, who){
         this.place = place;
         this.who = who;
@@ -11,32 +11,44 @@ class C4 {
 
     nextMoves(){
         //not working, doesnt log next moves 
-        let m = [];
+/*         let a = [];
         for(let i = 0; i < 7; i++){
+            //m.push(availableMoves[i]-7);
+            availableMoves = availableMoves.filter(item => item !== availableMoves[i]);
             if(availableMoves[i]=="."){
                 a.push(new C4(this.place.substring(0, i)+this.who+
                 this.place.substring(i+1), this.nextPlayer()));
+            } 
+        }
+        return a; */
+
+        let a=[];
+        for(let i=0; i<7; i++){
+            let p = currentBoard.place.indexOf(this.place[i]);
+            //console.log("p: "+p);
+            if(this.place[i]=="." && availableMoves.includes(p)){
+                console.log("ok");
+                //a.push(new C4(this.place.substring(0, i)+this.who+this.place.substring(i+1), this.nextPlayer()));
             }
         }
-        //console.log("proov" +m);
-        return m;
-    }
+        return a;
 
-    tekstina(){
-        let m=new Array(42).fill("_");
-        m[this.place-1]=this.who;
-        return m.join(" ");
     }
 
     click(nr){
+        
         if ((this.place[nr] == ".") && (availableMoves.includes(nr))){
-            availableMoves.push(nr-7);
+            if(nr-7 >= 0){
+                availableMoves.push(nr-7);
+            }
             availableMoves = availableMoves.filter(item => item !== nr);
-            return new C4(this.place.substring(0, nr) + this.who + this.place.substring(nr+1) , this.nextPlayer());
+
+            return new C4(this.place.substring(0, nr) + this.who + this.place.substring(nr+1), this.nextPlayer());
             
         } else {
             console.log("ei saa peale käia");
         }
+        
         return this;
     }
 
@@ -57,13 +69,11 @@ class C4 {
     }
 
     ifTie(){
-        if(this.ifWin()){
+        if(this.ifWin() && length(availableMoves) == 0){
             return false;
         } else {
             return this.place.indexOf(".") == -1;
         }
-        let exists = C4.values(C4).includes(".");
-        console.log("ei ole viik");
     }
 
     boardRating(){
@@ -71,9 +81,8 @@ class C4 {
         if(this.ifWin()){return this.who == "X"?-1:1;}
         
         let h = this.nextMoves().map(places => places.boardRating());
-        //console.log("test"+h);
+        console.log("test"+h);
         return (this.who =="X"?Math.max(...h):Math.min(...h));
-        
     }
 
     compMove(){
@@ -91,6 +100,7 @@ let currentBoard = new C4  ("......."+
                             "......."+
                             ".......",
                             "X");
+
 
 
 function compButton(){
@@ -113,13 +123,19 @@ function show(){
         v.push(currentBoard.who + " kord<br>");
     }
     board.innerHTML = v.join("");
-    //console.log("available moves: " + availableMoves);
-    //console.log("next moves: " + currentBoard.nextMoves());       doesnt get next moves 
-    //console.log("board rating: " + currentBoard.boardRating());     doesnt get next moves and rating
+    console.log(currentBoard);
+    console.log(availableMoves);
+    //nextmoves.innerText = currentBoard.boardRating();
+
+    console.log("board rating: " + currentBoard.boardRating());
 }
 
 function clicked(nr){
-    //console.log(currentBoard.who + " vajutas " + nr);
-    currentBoard = currentBoard.click(nr);
+    if(availableMoves.includes(nr)){
+        console.log(currentBoard.who + " vajutas " + nr);
+        currentBoard = currentBoard.click(nr);
+    } else {
+        console.log("lubamatu käik");
+    }
     show();
 }

@@ -6,10 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="script.js"></script>
     <title>Connect 4</title>
+    <style>
+        span {
+            background-color: #2ecc71;
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body onload="show()">
     <h1>Connect 4</h1>
     <pre id="board"></pre>
     <input type="button" value="computer" onclick="compButton()" /> <!-- doesnt work -->
+    <div id="nextmoves"></div>
 </body>
 </html>
