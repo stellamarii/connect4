@@ -12,9 +12,9 @@ class C4 {
 
     nextMoves(){
         let a=[];
-        for(let i=0; i<7; i++){
-            let move = availableMoves[i]
-                a.push(new C4(this.place.substring(0, move)+this.who+this.place.substring(move+1), this.nextPlayer()));
+        for(let i=0; i<availableMoves.length; i++){
+            let move = availableMoves[i];
+            a.push(new C4(this.place.substring(0, move)+this.who+this.place.substring(move+1), this.nextPlayer()));
         }
         return a;
 
@@ -27,7 +27,6 @@ class C4 {
                 availableMoves.push(nr-7);
             }
             availableMoves = availableMoves.filter(item => item !== nr);
-
             return new C4(this.place.substring(0, nr) + this.who + this.place.substring(nr+1), this.nextPlayer());
             
         } else {
@@ -61,9 +60,7 @@ class C4 {
     }
 
     boardRating(){
-/*         //not working, because nextmoves doesnt work
-        if(this.ifWin()){return this.who == "X"?-1:1;}
-        
+        /*if(this.ifWin()){return this.who == "X"?-1:1;}
         let h = this.nextMoves().map(places => places.boardRating());
         return (this.who =="X"?Math.max(...h):Math.min(...h)); */
 
@@ -82,7 +79,7 @@ class C4 {
                 }
                 h.push(sh);
             }
-            ratings[r2si] = (this.who =="X"?Math.max(...h):Math.min(...h));
+            C4.ratings[r2si] = (this.who =="X"?Math.max(...h):Math.min(...h));
         }
         return C4.ratings[r2si];
     }
